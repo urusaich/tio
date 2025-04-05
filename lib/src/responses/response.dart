@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 import '../typedefs.dart';
 
 mixin TioResponseMixin<R, E> {
@@ -38,7 +36,7 @@ mixin TioResponseMixin<R, E> {
       );
 }
 
-abstract class TioResponse<R, E> with EquatableMixin, TioResponseMixin<R, E> {
+abstract class TioResponse<R, E> with TioResponseMixin<R, E> {
   const TioResponse();
 
   const factory TioResponse.success({required R result}) = TioSuccess;
@@ -61,8 +59,8 @@ class TioSuccess<R, E> extends TioResponse<R, E> {
   TioResponse<T, E> withSuccess<T>(TioResultTransformer<R, E, T> builder) =>
       TioResponse<T, E>.success(result: builder(this));
 
-  @override
-  List<Object?> get props => [result];
+  // @override
+  // List<Object?> get props => [result];
 }
 
 class TioFailure<R, E> extends TioResponse<R, E> {
@@ -74,6 +72,6 @@ class TioFailure<R, E> extends TioResponse<R, E> {
   TioResponse<T, E> withSuccess<T>(TioResultTransformer<R, E, T> builder) =>
       TioResponse<T, E>.failure(error: error);
 
-  @override
-  List<Object?> get props => [error];
+  // @override
+  // List<Object?> get props => [error];
 }

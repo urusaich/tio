@@ -32,8 +32,8 @@ class TioHttpSuccess<R, E> extends TioHttpResponse<R, E>
   TioHttpResponse<T, E> withSuccess<T>(TioResultTransformer<R, E, T> builder) =>
       TioHttpSuccess<T, E>(result: builder(this), response: response);
 
-  @override
-  List<Object?> get props => [result];
+  // @override
+  // List<Object?> get props => [result];
 }
 
 class TioHttpFailure<R, E> extends TioHttpResponse<R, E>
@@ -50,6 +50,6 @@ class TioHttpFailure<R, E> extends TioHttpResponse<R, E>
   TioHttpResponse<T, E> withSuccess<T>(TioResultTransformer<R, E, T> builder) =>
       TioHttpFailure<T, E>(error: error, response: response);
 
-  @override
-  List<Object?> get props => [error];
+  // @override
+  // List<Object?> get props => [error];
 }

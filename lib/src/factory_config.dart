@@ -22,7 +22,8 @@ class TioFactoryConfig<E> {
   final TioStringFactory<E> errorStringFactory;
   final TioJsonFactory<E> errorJsonFactory;
 
-  List<Type> get containsFactories => jsonFactories.map(_genericTypeFactory).toList();
+  List<Type> get containsFactories =>
+      jsonFactories.map(_genericTypeFactory).toList();
 
   TioJsonFactory<T>? get<T>() =>
       jsonFactories.whereType<TioJsonFactory<T>>().firstOrNull;

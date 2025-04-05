@@ -1,3 +1,6 @@
+## 2.4.0
+- Update dependencies
+
 ## 2.3.0
 - Update example
 - Added Future.maybeUnwrap method
