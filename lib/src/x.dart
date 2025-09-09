@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 
-import 'responses/response.dart';
-
 /// Extension for [List]
 extension ListX on List<dynamic> {
   /// Checks every item is type of T.
