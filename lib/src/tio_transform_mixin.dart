@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'errors.dart';
 import 'factory_config.dart';
 import 'responses/response.dart';
-import 'responses/response_http.dart';
 import 'typedefs.dart';
 import 'x.dart';
 
@@ -13,21 +12,21 @@ mixin TioTransformMixin<E> {
   TioFactoryConfig<E> get factoryConfig;
 
   TioResponse<String, E> transformString(Response<String> resp) =>
-      TioHttpResponse<String, E>.success(
+      TioResponse<String, E>.success(
         response: resp,
-        result: resp.data!,
+        value: resp.data!,
       );
 
   TioResponse<Uint8List, E> transformBytes(Response<Uint8List> resp) =>
-      TioHttpResponse.success(
+      TioResponse.success(
         response: resp,
-        result: resp.data!,
+        value: resp.data!,
       );
 
   TioResponse<ResponseBody, E> transformStream(Response<ResponseBody> resp) =>
-      TioHttpResponse.success(
+      TioResponse.success(
         response: resp,
-        result: resp.data!,
+        value: resp.data!,
       );
 
   TioResponse<T, E> transformOne<T>(Response<JsonMap> resp) {
@@ -42,9 +41,9 @@ mixin TioTransformMixin<E> {
 
     try {
       final json = JsonMap.from(data);
-      return TioHttpResponse.success(
+      return TioResponse.success(
         response: resp,
-        result: factory(json),
+        value: factory(json),
       );
     } catch (e, s) {
       _throwTransformException(resp, e, s);
@@ -63,9 +62,9 @@ mixin TioTransformMixin<E> {
 
     try {
       final result = json.map(factory.call).toList();
-      return TioHttpResponse.success(
+      return TioResponse.success(
         response: resp,
-        result: result,
+        value: result,
       );
     } catch (e, s) {
       _throwTransformException(resp, e, s);
@@ -73,7 +72,7 @@ mixin TioTransformMixin<E> {
   }
 
   TioResponse<void, E> transformEmpty(Response<dynamic> resp) =>
-      TioHttpResponse.success(response: resp, result: null);
+      TioResponse.success(response: resp, value: null);
 
   E transformError(Response<dynamic> resp) {
     try {

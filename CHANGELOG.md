@@ -1,3 +1,8 @@
+## 3.0.0
+- TioHttpResponse removed
+- TioResponse now have Response response property
+- TioResponse.result renamed to TioResponse.value
+
 ## 2.4.0
 - Update dependencies
 

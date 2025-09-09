@@ -10,10 +10,10 @@ void main() {
       () async => expect(
         fn(),
         completion(
-          isA<MyHttpSuccess<String>>()
-              .having((s) => s.result, 'result', method)
+          isA<MySuccess<String>>()
+              .having((s) => s.value, 'result', method)
               .having(
-                (s) => s.response.requestOptions.method,
+                (s) => s.response?.requestOptions.method,
                 'response.requestOptions.method',
                 method,
               ),

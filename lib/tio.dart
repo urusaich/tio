@@ -4,7 +4,6 @@ export 'src/factory_config.dart';
 export 'src/interceptor.dart';
 export 'src/request_proxy.dart';
 export 'src/responses/response.dart';
-export 'src/responses/response_http.dart';
 export 'src/tio.dart';
 export 'src/typedefs.dart';
 export 'src/x.dart' hide ListX;

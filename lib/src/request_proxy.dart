@@ -21,7 +21,6 @@ class TioRequestProxy<T, E> {
   });
 
   final TioBase<E> client;
-
   final String path;
   final String method;
   final Object? data;

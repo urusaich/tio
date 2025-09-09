@@ -24,7 +24,7 @@ void main() {
   test('tio response', () {
     // ignore: prefer_const_declarations
     final success = const TioResponse<String, int>.success(
-      result: 'result',
+      value: 'result',
     );
 
     // ignore: prefer_const_declarations
@@ -35,7 +35,7 @@ void main() {
     expect(
       success.withSuccess<bool>((current) => true),
       isA<TioSuccess<bool, int>>()
-          .having((success) => success.result, 'result', isTrue),
+          .having((success) => success.value, 'result', isTrue),
     );
 
     expect(

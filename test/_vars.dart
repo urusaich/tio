@@ -45,27 +45,6 @@ class TioTest<T, A extends HttpClientAdapter> {
       adapter: dio.httpClientAdapter as TestHttpClientAdapter,
     );
   }
-
-  static TioTest<TestAuthTioService, TestAuthHttpClientAdapter> auth({
-    required bool syncRefresh,
-  }) {
-    final adapter = TestAuthHttpClientAdapter();
-    final dio = Dio()..httpClientAdapter = adapter;
-    final tio = Tio<MyResponseError>.withInterceptors(
-      dio: dio,
-      factoryConfig: factoryConfig,
-    );
-    final service = TestAuthTioService(tio: tio);
-    dio.interceptors.add(
-      TestAuthInterceptor(
-        tio: tio,
-        service: service,
-        accessTokenKey: TestTioStorageKey(adapter.accessToken),
-        syncRefresh: syncRefresh,
-      ),
-    );
-    return TioTest(dio: dio, tio: tio, service: service, adapter: adapter);
-  }
 }
 
 final emptyResponse = Response<dynamic>(requestOptions: RequestOptions());

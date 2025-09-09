@@ -1,6 +1,28 @@
+import 'package:dio/dio.dart';
+
 import '../typedefs.dart';
 
-mixin TioResponseMixin<R, E> {
+T? _null<T>(_) => null;
+
+T _self<T>(T o) => o;
+
+sealed class TioResponse<R, E> {
+  const TioResponse._({this.response});
+
+  const factory TioResponse.success({
+    required R value,
+    Response<dynamic>? response,
+  }) = TioSuccess;
+
+  const factory TioResponse.failure({
+    required E error,
+    Response<dynamic>? response,
+  }) = TioFailure;
+
+  final Response<dynamic>? response;
+
+  TioResponse<T, E> withSuccess<T>(TioResultTransformer<R, E, T> builder);
+
   T map<T>({
     required T Function(TioSuccess<R, E> success) success,
     required T Function(TioFailure<R, E> failure) failure,
@@ -8,7 +30,6 @@ mixin TioResponseMixin<R, E> {
       switch (this) {
         final TioSuccess<R, E> value => success(value),
         final TioFailure<R, E> value => failure(value),
-        _ => throw StateError('Bad state'),
       };
 
   T when<T>({
@@ -16,62 +37,45 @@ mixin TioResponseMixin<R, E> {
     required T Function(E error) failure,
   }) =>
       switch (this) {
-        final TioSuccess<R, E> value => success(value.result),
+        final TioSuccess<R, E> value => success(value.value),
         final TioFailure<R, E> value => failure(value.error),
-        _ => throw StateError('Bad state'),
       };
 
-  R? get maybeResult => when(success: (result) => result, failure: (_) => null);
+  R? get valueOrNull => when(success: _self, failure: _null);
 
-  E? get maybeError => when(success: (_) => null, failure: (error) => error);
+  E? get errorOrNull => when(success: _null, failure: _self);
 
-  R get requireResult => when(
-        success: (result) => result,
+  R get requireValue => when(
+        success: _self,
         failure: (_) => throw StateError('Response is not succeed'),
       );
 
   E get requireError => when(
         success: (_) => throw StateError('Response is not failures'),
-        failure: (error) => error,
+        failure: _self,
       );
-}
 
-abstract class TioResponse<R, E> with TioResponseMixin<R, E> {
-  const TioResponse();
+  bool get hasValue => this is TioSuccess;
 
-  const factory TioResponse.success({required R result}) = TioSuccess;
-
-  const factory TioResponse.failure({required E error}) = TioFailure;
-
-  TioResponse<T, E> withSuccess<T>(TioResultTransformer<R, E, T> builder);
-
-  bool get isSuccess => this is TioSuccess;
-
-  bool get isFailure => this is TioFailure;
+  bool get hasError => this is TioFailure;
 }
 
 class TioSuccess<R, E> extends TioResponse<R, E> {
-  const TioSuccess({required this.result});
+  const TioSuccess({required this.value, super.response}) : super._();
 
-  final R result;
+  final R value;
 
   @override
   TioResponse<T, E> withSuccess<T>(TioResultTransformer<R, E, T> builder) =>
-      TioResponse<T, E>.success(result: builder(this));
-
-  // @override
-  // List<Object?> get props => [result];
+      TioResponse<T, E>.success(value: builder(this));
 }
 
 class TioFailure<R, E> extends TioResponse<R, E> {
-  const TioFailure({required this.error});
+  const TioFailure({required this.error, super.response}) : super._();
 
   final E error;
 
   @override
   TioResponse<T, E> withSuccess<T>(TioResultTransformer<R, E, T> builder) =>
       TioResponse<T, E>.failure(error: error);
-
-  // @override
-  // List<Object?> get props => [error];
 }

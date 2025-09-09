@@ -15,7 +15,7 @@ void main() {
       tio.service.todosAsString(),
       completion(
         isA<MySuccess<String>>()
-            .having((success) => success.result, 'result', jsonEncode(todos)),
+            .having((success) => success.value, 'result', jsonEncode(todos)),
       ),
     ),
   );
@@ -26,7 +26,7 @@ void main() {
       tio.service.todosAsBytes(),
       completion(
         isA<MySuccess<Uint8List>>().having(
-          (success) => success.result,
+          (success) => success.value,
           'result',
           utf8.encode(jsonEncode(todos)),
         ),
@@ -40,7 +40,7 @@ void main() {
       tio.service.todosAsStream(),
       completion(
         isA<MySuccess<ResponseBody>>().having(
-          (success) => success.result.stream.expand((e) => e.toList()).toList(),
+          (success) => success.value.stream.expand((e) => e.toList()).toList(),
           'result',
           completion(utf8.encode(jsonEncode(todos))),
         ),
@@ -54,7 +54,7 @@ void main() {
       tio.service.todosAsEmpty(),
       completion(
         isA<MySuccess<void>>()
-            .having((success) => success.result, 'result', isNull),
+            .having((success) => success.value, 'result', isNull),
       ),
     ),
   );

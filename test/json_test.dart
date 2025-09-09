@@ -13,8 +13,8 @@ void main() {
       tio.service.todos(),
       completion(
         isA<MySuccess<List<Todo>>>()
-            .having((s) => s.result, 'result', unorderedEquals(todos))
-            .having((s) => s.isSuccess, 'map', isTrue),
+            .having((s) => s.value, 'result', unorderedEquals(todos))
+            .having((s) => s.hasValue, 'map', isTrue),
       ),
     ),
   );
@@ -25,7 +25,7 @@ void main() {
       tio.service.todo(todos.first.id),
       completion(
         isA<MySuccess<Todo>>()
-            .having((success) => success.result, 'result', todos.first),
+            .having((success) => success.value, 'result', todos.first),
       ),
     ),
   );
@@ -35,9 +35,9 @@ void main() {
     () async => expect(
       tio.service.todo(0),
       completion(
-        isA<MyHttpFailure<Todo>>()
-            .having((f) => f.response.statusCode, 'error', HttpStatus.notFound)
-            .having((s) => s.isSuccess, 'map', isFalse),
+        isA<MyFailure<Todo>>()
+            .having((f) => f.response?.statusCode, 'error', HttpStatus.notFound)
+            .having((s) => s.hasValue, 'map', isFalse),
       ),
     ),
   );

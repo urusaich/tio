@@ -15,6 +15,10 @@ class MyError {
   final String errorMessage;
 }
 
+typedef MyResponse<T> = TioResponse<T, MyError>;
+typedef MySuccess<T> = TioSuccess<T, MyError>;
+typedef MyFailure<T> = TioFailure<T, MyError>;
+
 const factoryConfig = TioFactoryConfig<MyError>(
   jsonFactories: {
     User.fromJson,
@@ -29,38 +33,35 @@ final tio = Tio<MyError>(
   factoryConfig: factoryConfig,
 );
 
-Future<TioResponse<User, MyError>> getUser(int id) =>
-    tio.get<User>('/users/$id').one();
+Future<MyResponse<User>> getUser(int id) => tio.get<User>('/users/$id').one();
 
-Future<TioResponse<List<User>, MyError>> getUsers() =>
-    tio.get<User>('/users').many();
+Future<MyResponse<List<User>>> getUsers() => tio.get<User>('/users').many();
 
-Future<TioResponse<User, MyError>> updateUser(int id, String name) =>
+Future<MyResponse<User>> updateUser(int id, String name) =>
     tio.post<User>('/users/$id', data: {'name': name}).one();
 
-Future<TioResponse<String, MyError>> geString() =>
-    tio.get<String>('/text').string();
+Future<MyResponse<String>> getString() => tio.get<String>('/text').string();
 
 void main() async {
   switch (await getUser(1)) {
-    case TioSuccess<User, MyError>(result: final user):
+    case TioSuccess<User, MyError>(value: final user):
       print('user id is ${user.id}');
     case TioFailure<User, MyError>(error: final error):
       print('error acquired ${error.errorMessage}');
   }
 
   // ignore: omit_local_variable_types
-  final User? user = await getUser(1).map(
-    success: (success) => success.result,
+  final User? user = (await getUser(1)).map(
+    success: (success) => success.value,
     failure: (failure) => null,
   );
 
   // ignore: omit_local_variable_types
-  final User? user2 = await getUser(2).when(
-    success: (result) => result,
+  final User? user2 = (await getUser(2)).when(
+    success: (value) => value,
     failure: (error) => null,
   );
 
   // ignore: omit_local_variable_types
-  final User? user3 = (await getUser(3)).maybeResult;
+  final User? user3 = (await getUser(3)).valueOrNull;
 }

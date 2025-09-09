@@ -18,7 +18,3 @@ class MyResponseError with EquatableMixin {
 typedef MyResponse<R> = TioResponse<R, MyResponseError>;
 typedef MySuccess<R> = TioSuccess<R, MyResponseError>;
 typedef MyFailure<R> = TioFailure<R, MyResponseError>;
-
-typedef MyHttpResponse<R> = TioHttpResponse<R, MyResponseError>;
-typedef MyHttpSuccess<R> = TioHttpSuccess<R, MyResponseError>;
-typedef MyHttpFailure<R> = TioHttpFailure<R, MyResponseError>;

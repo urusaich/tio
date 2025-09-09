@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 
 import 'factory_config.dart';
 import 'responses/response.dart';
-import 'responses/response_http.dart';
 import 'tio_mixin.dart';
 import 'tio_transform_mixin.dart';
 import 'typedefs.dart';
@@ -28,9 +27,9 @@ class Tio<E> with TioMixin<E>, TioTransformMixin<E> {
   final TioFactoryConfig<E> factoryConfig;
 
   @override
-  Future<TioResponse<T, E>> request<T, D>(
+  Future<TioResponse<R, E>> request<R, D>(
     String path,
-    TioResponseTransformer<T, E, D> transformer, {
+    TioResponseTransformer<R, E, D> transformer, {
     Object? data,
     JsonMap? queryParameters,
     CancelToken? cancelToken,
@@ -52,9 +51,9 @@ class Tio<E> with TioMixin<E>, TioTransformMixin<E> {
           .then(transformer);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.badResponse) {
-        return TioHttpResponse.failure(
-          response: e.response!,
+        return TioResponse<R, E>.failure(
           error: transformError(e.response!),
+          response: e.response,
         );
       }
       rethrow;
@@ -62,7 +61,7 @@ class Tio<E> with TioMixin<E>, TioTransformMixin<E> {
   }
 
   /// Adds a method and responseType to the [Options] if they are absent.
-  static Options? checkOptions({
+  static Options checkOptions({
     Options? options,
     String? method,
     ResponseType? responseType,

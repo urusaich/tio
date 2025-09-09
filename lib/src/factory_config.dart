@@ -18,7 +18,6 @@ class TioFactoryConfig<E> {
   });
 
   final Set<TioJsonFactory<dynamic>> jsonFactories;
-
   final TioStringFactory<E> errorStringFactory;
   final TioJsonFactory<E> errorJsonFactory;
 

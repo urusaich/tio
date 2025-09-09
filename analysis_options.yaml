@@ -4,28 +4,28 @@ analyzer:
     strict-inference: true
     strict-raw-types: true
   errors:
-    always_put_required_named_parameters_first: ignore
-    avoid_annotating_with_dynamic: ignore
-    avoid_catches_without_on_clauses: ignore
-    avoid_multiple_declarations_per_line: ignore
-    avoid_print: ignore
-    avoid_private_typedef_functions: ignore
     avoid_redundant_argument_values: ignore
-    cascade_invocations: ignore
-    diagnostic_describe_all_properties: ignore
-    do_not_use_environment: ignore
-    document_ignores: ignore
-    lines_longer_than_80_chars: ignore
-    sort_pub_dependencies: ignore
-    one_member_abstracts: ignore
-    parameter_assignments: ignore
-    prefer_asserts_with_message: ignore
-    prefer_expression_function_bodies: ignore
-    public_member_api_docs: ignore
-    unreachable_from_main: ignore
-    unused_catch_stack: ignore
+    always_put_required_named_parameters_first: ignore
     unused_element: ignore
+    unused_element_parameter: ignore
     unused_local_variable: ignore
+    public_member_api_docs: ignore
+    lines_longer_than_80_chars: ignore
+    prefer_asserts_with_message: ignore
+    sort_pub_dependencies: ignore
+    diagnostic_describe_all_properties: ignore
+    cascade_invocations: ignore
+    avoid_multiple_declarations_per_line: ignore
+    prefer_expression_function_bodies: ignore
+    avoid_catches_without_on_clauses: ignore
+    avoid_private_typedef_functions: ignore
+    document_ignores: ignore
+    parameter_assignments: ignore
+    avoid_annotating_with_dynamic: ignore
+    do_not_use_environment: ignore
+    one_member_abstracts: ignore
+    unused_catch_stack: ignore
+    unreachable_from_main: ignore
 
 linter:
   rules:
@@ -54,7 +54,6 @@ linter:
     - avoid_js_rounded_ints
     - avoid_multiple_declarations_per_line
     - avoid_positional_boolean_parameters
-    - avoid_print
     - avoid_private_typedef_functions
     - avoid_redundant_argument_values
     - avoid_relative_lib_imports
@@ -195,7 +194,7 @@ linter:
     - test_types_in_equals
     - throw_in_finally
     - tighten_type_of_initializing_formals
-    - type_annotate_public_apis
+    # - type_annotate_public_apis
     - type_init_formals
     - type_literal_in_constant_pattern
     - unawaited_futures
